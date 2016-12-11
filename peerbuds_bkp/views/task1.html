@@ -1,0 +1,81 @@
+<div class="row" ng-controller="task1Ctrl">
+    
+    <div class="col-ms-12 postFullContainer" ng-repeat="_post in posts | paginationFilters_startFrom:currentPage*pageSize | limitTo:pageSize track by $index">
+        <div class="card text-xs-center">
+          <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs float-xs-left" >
+                <span class="dpSmall">
+                    <img src="{{_post._ProfileImageUrl}}" width="35" height="35">
+                    
+                </span>
+                <span class="dpUserName">
+                    <i>{{getUserName(_post); _post._DisplayName}}</i>
+                </span>
+                <span>
+                   <b><i> Created@  </i> </b>{{_post._CreationDate}}
+                   <b><i> Edited@  </i> </b>{{_post._LastEditDate}}
+                   <b><i> Last Activity@  </i> </b>{{_post._LastActivityDate}}
+                </span>
+            </ul>
+          </div>
+          <div class="card-block">
+            <h4 class="card-title">{{_post._Title}}</h4>
+            <p class="card-text" ng-bind-html="_post._Body"></p>
+            <p class="card-text">
+                <div class="postLink">
+                    <a target="_blank" href="www.google.com" >google.com</a>
+                    <a target="_blank" href="www.google.com" >google.com</a>
+                    <a target="_blank" href="www.google.com" >google.com</a>
+                    <a target="_blank" href="www.google.com" >google.com</a>
+                </div>
+                
+            </p>
+            <p class="card-text">
+                <span class="postDetails">
+                    <b>
+                        <i>Vote:</i>
+                    </b>
+                     {{_post._Score}}  
+                    <img src="img/up.png" ng-click="votePost(_post, true);">
+                    <img src="img/down.png" ng-click="votePost(_post, false);">
+                </span>
+                <span class="postDetails">
+                    <b>
+                        <i>Favorite: </i>
+                    </b>
+                     {{_post._FavoriteCount}} 
+                </span>
+                <span class="postDetails">
+                    <b>
+                        <i>Answers: </i>
+                    </b>
+                     {{_post._AnswerCount}} 
+                </span>
+            </p>
+            {{getTags(_post)}}
+            <a href="#" ng-repeat="tag in _post.tags track by $index" ng-if="tag" class="btn btn-primary postTag">{{tag}}</a>
+          </div>
+        </div>
+    </div>
+    
+    <div style="text-align: center;" ng-hide="!posts.length">
+        <ul class="pagination">
+          <li ng-hide="currentPage == 0">
+              <a ng-click="currentPage=currentPage-1" href="#">Prev</a>
+            </li>
+            <li>
+                <a class="active">
+                    <b>Current Page:</b> {{currentPage}}
+                    <b>Total Page:</b> {{Math.round(getData().length/pageSize - 1)}}
+                </a>
+            </li>
+          <!--<li ng-repeat="i in getNumber(numberOfPages()) track by $index" class="{{currentPage == $index? 'active':''}}">
+              <a  ng-click="changePage($index)" href="#">{{$index+1}}</a>
+            </li>-->
+          <li ng-hide="currentPage >= getData().length/pageSize - 1">
+              <a ng-click="currentPage=currentPage+1" href="#">Next</a>
+            </li>
+        </ul>
+    </div>
+
+</div>
